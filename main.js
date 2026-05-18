@@ -191,13 +191,30 @@
 })();
 
 /* ════════════════════════════════════════════
-   6. CONTACT FORM
+   6. CONTACT FORM — EmailJS
+   ─────────────────────────────────────────────
+   SETUP (una sola vez):
+   1. Creá cuenta gratis en https://www.emailjs.com
+   2. Add Service → Gmail → conectá maximocipri@gmail.com → copiá el SERVICE_ID
+   3. Email Templates → Create Template → usá estas variables:
+        {{from_name}}, {{from_email}}, {{subject}}, {{message}}
+      En "To email" poné: maximocipri@gmail.com → copiá el TEMPLATE_ID
+   4. Account → API Keys → copiá tu PUBLIC_KEY
+   5. Reemplazá los tres valores de abajo y listo.
 ════════════════════════════════════════════ */
 (function initContactForm() {
+  // ── CONFIGURACIÓN ──────────────────────────
+  const EMAILJS_PUBLIC_KEY  = '5ll0BpVyEYBdaE6bO';   // ej: 'aBcDeFgHiJkLmNoP'
+  const EMAILJS_SERVICE_ID  = 'service_ato8317';   // ej: 'service_xxxxxxx'
+  const EMAILJS_TEMPLATE_ID = 'template_2cfed1a';  // ej: 'template_xxxxxxx'
+  // ───────────────────────────────────────────
+
   const btn      = document.getElementById('f-submit');
   const feedback = document.getElementById('f-feedback');
+  if (!btn) return;
 
-  if (!btn) return; // guard: form not present
+  // Inicializar EmailJS con la public key
+  emailjs.init(EMAILJS_PUBLIC_KEY);
 
   const showFeedback = (msg, type) => {
     feedback.textContent = msg;
@@ -205,7 +222,21 @@
     feedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   };
 
-  btn.addEventListener('click', () => {
+  const setLoading = (loading) => {
+    if (loading) {
+      btn.innerHTML        = '<span>Enviando...</span><span class="submit-icon">⟳</span>';
+      btn.style.background = 'rgba(0,210,255,0.15)';
+      btn.style.color      = 'var(--blue)';
+      btn.disabled         = true;
+    } else {
+      btn.innerHTML        = '<span>Enviar mensaje</span><span class="submit-icon">→</span>';
+      btn.style.background = '';
+      btn.style.color      = '';
+      btn.disabled         = false;
+    }
+  };
+
+  btn.addEventListener('click', async () => {
     const name    = document.getElementById('f-name').value.trim();
     const email   = document.getElementById('f-email').value.trim();
     const subject = document.getElementById('f-subject').value.trim();
@@ -222,23 +253,29 @@
       return;
     }
 
-    // Construir mailto
-    const to     = 'maximocipri@gmail.com';
-    const sub    = encodeURIComponent(subject || `Contacto desde portfolio — ${name}`);
-    const body   = encodeURIComponent(`Nombre: ${name}\nEmail: ${email}\n\n${msg}`);
-    const mailto = `mailto:${to}?subject=${sub}&body=${body}`;
+    setLoading(true);
 
-    // Feedback visual de transición
-    btn.textContent      = '// Abriendo cliente de correo...';
-    btn.style.background = 'rgba(0,210,255,0.15)';
-    btn.style.color      = 'var(--blue)';
+    try {
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+        from_name:  name,
+        from_email: email,
+        subject:    subject || `Contacto desde portfolio — ${name}`,
+        message:    msg,
+      });
 
-    setTimeout(() => {
-      window.location.href = mailto;
-      showFeedback('✓ Tu cliente de correo se abrió con el mensaje listo. ¡Gracias por escribir!', 'success');
-      btn.innerHTML        = '<span>Enviar mensaje</span><span class="submit-icon">→</span>';
-      btn.style.background = '';
-      btn.style.color      = '';
-    }, 600);
+      showFeedback('✓ Mensaje enviado correctamente. ¡Te respondo a la brevedad!', 'success');
+
+      // Limpiar campos
+      document.getElementById('f-name').value    = '';
+      document.getElementById('f-email').value   = '';
+      document.getElementById('f-subject').value = '';
+      document.getElementById('f-msg').value     = '';
+
+    } catch (err) {
+      console.error('EmailJS error:', err);
+      showFeedback('// ERROR: No se pudo enviar el mensaje. Intentá de nuevo o escribime a maximocipri@gmail.com', 'error');
+    } finally {
+      setLoading(false);
+    }
   });
 })();
