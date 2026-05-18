@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Máximo Cipriani — Analista de Sistemas</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ─── CUSTOM CURSOR ─── -->
+  <div id="cursor"></div>
+  <div id="cursor-trail"></div>
+
+  <!-- ─── MOUSE LANTERN ─── -->
+  <div id="lantern"></div>
+
+  <!-- ─── BACKGROUND CANVAS ─── -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- ─── LOADING SCREEN ─── -->
+  <div id="loader">
+    <div id="loader-svg">
+      <svg viewBox="0 0 180 180" width="180" height="180">
+        <polygon class="tri-stroke"       points="90,12 168,148 12,148"/>
+        <polygon class="tri-stroke-inner" points="90,42 148,138 32,138"/>
+        <polygon class="tri-fill"         points="90,12 168,148 12,148"/>
+        <circle cx="90" cy="105" r="2" fill="var(--blue)" opacity="0.8"/>
+      </svg>
+      <!-- Floating fragments -->
+      <div class="loader-fragment" style="top:10px;left:50%;--dur:1.4s;--delay:0.2s;--tx:-20px;--ty:-25px"></div>
+      <div class="loader-fragment" style="top:20px;left:20%;--dur:1.6s;--delay:0.5s;--tx:-15px;--ty:-20px"></div>
+      <div class="loader-fragment" style="top:20px;left:75%;--dur:1.3s;--delay:0.3s;--tx:18px;--ty:-18px"></div>
+      <div class="loader-fragment" style="bottom:20px;left:10%;--dur:1.5s;--delay:0.1s;--tx:-25px;--ty:10px"></div>
+      <div class="loader-fragment" style="bottom:10px;left:50%;--dur:1.4s;--delay:0.4s;--tx:8px;--ty:20px"></div>
+      <div class="loader-fragment" style="bottom:20px;right:10%;--dur:1.6s;--delay:0.2s;--tx:22px;--ty:12px"></div>
+    </div>
+    <div id="loader-pct">000<span style="font-size:0.5em;opacity:0.5">%</span></div>
+    <div id="loader-label">Inicializando sistema</div>
+    <div id="loader-bar-wrap">
+      <div id="loader-bar"></div>
+    </div>
+  </div>
+
+  <!-- ─── NAV ─── -->
+  <nav>
+    <div class="nav-logo">MC//SYS</div>
+    <ul class="nav-links">
+      <li><a href="#about">Sobre mí</a></li>
+      <li><a href="#projects">Proyectos</a></li>
+      <li><a href="#contact">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <main>
+
+    <!-- ══════════════════════════════════
+         HERO
+    ═══════════════════════════════════ -->
+    <section id="hero">
+      <div class="hero-inner">
+        <div class="hero-tag">// Portfolio — Analista de Sistemas</div>
+        <h1 class="hero-name">Máximo<br>Cipriani</h1>
+        <div class="hero-title">Analista de Sistemas</div>
+        <p class="hero-sub">
+          Diseño y construyo <strong>arquitecturas de software</strong> robustas y escalables.
+          De la lógica al deploy — sistemas que funcionan bajo presión y escalan sin fricciones.
+        </p>
+        <div class="hero-divider"></div>
+        <a href="#projects" class="btn-primary">
+          <span>Ver Proyectos</span>
+          <span>→</span>
+        </a>
+      </div>
+
+      <!-- Decorative geometric SVG -->
+      <div class="hero-geo">
+        <svg viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="190,20 360,320 20,320"  stroke="rgba(0,210,255,0.12)" stroke-width="1"/>
+          <polygon points="190,50 330,300 50,300"  stroke="rgba(0,210,255,0.08)" stroke-width="1"/>
+          <polygon points="190,80 300,280 80,280"  stroke="rgba(0,210,255,0.06)" stroke-width="1"/>
+          <polygon points="190,20 360,320 20,320"  stroke="rgba(0,210,255,0.35)" stroke-width="0.5" stroke-dasharray="4 8"/>
+          <circle cx="190" cy="210" r="3" fill="rgba(0,210,255,0.6)"/>
+          <line x1="190" y1="20"  x2="190" y2="210" stroke="rgba(0,210,255,0.10)" stroke-width="0.5"/>
+          <line x1="20"  y1="320" x2="190" y2="210" stroke="rgba(0,210,255,0.08)" stroke-width="0.5"/>
+          <line x1="360" y1="320" x2="190" y2="210" stroke="rgba(0,210,255,0.08)" stroke-width="0.5"/>
+          <polygon points="190,110 260,250 120,250" stroke="rgba(0,85,255,0.15)"  stroke-width="0.5" fill="rgba(0,210,255,0.02)"/>
+        </svg>
+      </div>
+    </section>
+
+    <!-- Divider -->
+    <div class="tri-divider">
+      <svg viewBox="0 0 1440 70" preserveAspectRatio="none">
+        <polygon points="0,0 1440,0 1440,70 720,30 0,70" fill="#0d0d0d"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════════════════
+         ABOUT
+    ═══════════════════════════════════ -->
+    <section id="about">
+      <div class="section-wrap">
+        <div class="section-label reveal">Perfil Técnico</div>
+        <h2 class="section-title reveal reveal-delay-1">Sobre <span class="accent">Mí</span></h2>
+
+        <div class="about-grid">
+          <div class="about-text reveal reveal-delay-2">
+            <p>
+              Soy <strong>Máximo Cipriani</strong>, Analista de Sistemas orientado al desarrollo de software
+              con foco en <strong>arquitectura limpia</strong>, rendimiento y escalabilidad.
+            </p>
+            <p>
+              Me especializo en el diseño de sistemas que <strong>resuelven problemas reales</strong>:
+              desde el modelado de datos hasta la implementación de APIs robustas y la
+              integración de servicios en la nube.
+            </p>
+            <p>
+              Trabajo con metodologías ágiles, pensamiento sistémico y un enfoque pragmático
+              que prioriza la <strong>calidad del código</strong> y la experiencia del usuario final.
+              El detalle importa. El rendimiento no es opcional.
+            </p>
+          </div>
+
+          <div class="reveal reveal-delay-3">
+            <div class="section-label" style="margin-bottom:1rem">Stack &amp; Skills</div>
+            <div class="skills-grid">
+              <div class="skill-chip">Python</div>
+              <div class="skill-chip">JavaScript</div>
+              <div class="skill-chip">TypeScript</div>
+              <div class="skill-chip">React</div>
+              <div class="skill-chip">Node.js</div>
+              <div class="skill-chip">SQL / NoSQL</div>
+              <div class="skill-chip">Docker</div>
+              <div class="skill-chip">Git / CI-CD</div>
+              <div class="skill-chip">REST APIs</div>
+              <div class="skill-chip">Linux / Bash</div>
+              <div class="skill-chip">AWS / Cloud</div>
+              <div class="skill-chip">Arquitectura</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Divider -->
+    <div class="tri-divider">
+      <svg viewBox="0 0 1440 70" preserveAspectRatio="none">
+        <polygon points="0,70 720,30 1440,70 1440,0 0,0" fill="#0d0d0d"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════════════════
+         PROJECTS
+    ═══════════════════════════════════ -->
+    <section id="projects">
+      <div class="section-wrap">
+        <div class="section-label reveal">Trabajo Seleccionado</div>
+        <h2 class="section-title reveal reveal-delay-1">Pro<span class="accent">yectos</span></h2>
+
+        <div class="projects-grid">
+
+          <div class="card reveal reveal-delay-1">
+            <div class="card-corner"></div>
+            <div class="card-corner-br"></div>
+            <div class="card-tag">// 01 — Backend</div>
+            <h3 class="card-title">API Gateway Central</h3>
+            <p class="card-desc">Sistema de enrutamiento y autenticación centralizado para microservicios. JWT, rate limiting, logging estructurado y failover automático.</p>
+            <div class="card-stack">
+              <span class="stack-badge">Node.js</span>
+              <span class="stack-badge">Express</span>
+              <span class="stack-badge">Redis</span>
+              <span class="stack-badge">Docker</span>
+            </div>
+          </div>
+
+          <div class="card reveal reveal-delay-2">
+            <div class="card-corner"></div>
+            <div class="card-corner-br"></div>
+            <div class="card-tag">// 02 — Full Stack</div>
+            <h3 class="card-title">Dashboard Analítico</h3>
+            <p class="card-desc">Panel de control en tiempo real con visualizaciones interactivas, procesamiento de datos batch y exportación multi-formato.</p>
+            <div class="card-stack">
+              <span class="stack-badge">React</span>
+              <span class="stack-badge">Python</span>
+              <span class="stack-badge">FastAPI</span>
+              <span class="stack-badge">PostgreSQL</span>
+            </div>
+          </div>
+
+          <div class="card reveal reveal-delay-3">
+            <div class="card-corner"></div>
+            <div class="card-corner-br"></div>
+            <div class="card-tag">// 03 — Automatización</div>
+            <h3 class="card-title">Pipeline ETL Inteligente</h3>
+            <p class="card-desc">Sistema de extracción, transformación y carga de datos con detección de anomalías, versionado de esquemas y alertas configurables.</p>
+            <div class="card-stack">
+              <span class="stack-badge">Python</span>
+              <span class="stack-badge">Airflow</span>
+              <span class="stack-badge">Pandas</span>
+              <span class="stack-badge">AWS S3</span>
+            </div>
+          </div>
+
+          <div class="card reveal reveal-delay-1">
+            <div class="card-corner"></div>
+            <div class="card-corner-br"></div>
+            <div class="card-tag">// 04 — DevOps</div>
+            <h3 class="card-title">CI/CD Infrastructure</h3>
+            <p class="card-desc">Pipeline de integración continua con testing automatizado, análisis estático, contenedorización y despliegue a múltiples entornos.</p>
+            <div class="card-stack">
+              <span class="stack-badge">GitHub Actions</span>
+              <span class="stack-badge">Docker</span>
+              <span class="stack-badge">Terraform</span>
+              <span class="stack-badge">AWS</span>
+            </div>
+          </div>
+
+          <div class="card reveal reveal-delay-2">
+            <div class="card-corner"></div>
+            <div class="card-corner-br"></div>
+            <div class="card-tag">// 05 — Frontend</div>
+            <h3 class="card-title">SPA Gestión de Proyectos</h3>
+            <p class="card-desc">Aplicación single-page para gestión ágil: tableros Kanban, estimación de tiempos, colaboración en tiempo real y reportes exportables.</p>
+            <div class="card-stack">
+              <span class="stack-badge">React</span>
+              <span class="stack-badge">TypeScript</span>
+              <span class="stack-badge">WebSocket</span>
+              <span class="stack-badge">MongoDB</span>
+            </div>
+          </div>
+
+          <div class="card reveal reveal-delay-3">
+            <div class="card-corner"></div>
+            <div class="card-corner-br"></div>
+            <div class="card-tag">// 06 — Sistemas</div>
+            <h3 class="card-title">Motor de Reglas de Negocio</h3>
+            <p class="card-desc">Engine configurable para evaluación de reglas complejas con árbol de decisión dinámico, auditoría y versionado de políticas.</p>
+            <div class="card-stack">
+              <span class="stack-badge">Java</span>
+              <span class="stack-badge">Spring Boot</span>
+              <span class="stack-badge">MySQL</span>
+              <span class="stack-badge">YAML Rules</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Divider -->
+    <div class="tri-divider">
+      <svg viewBox="0 0 1440 70" preserveAspectRatio="none">
+        <polygon points="0,0 1440,0 1440,70 720,30 0,70" fill="#0d0d0d"/>
+      </svg>
+    </div>
+
+    <!-- ══════════════════════════════════
+         CONTACT
+    ═══════════════════════════════════ -->
+    <section id="contact">
+      <div class="contact-inner">
+        <div class="section-label reveal">Conectemos</div>
+        <h2 class="section-title reveal reveal-delay-1">Con<span class="accent">tacto</span></h2>
+        <p class="contact-sub reveal reveal-delay-2">
+          ¿Tenés un proyecto interesante? ¿Buscás un perfil técnico orientado a resultados?<br>
+          Estoy disponible para nuevas oportunidades y colaboraciones.
+        </p>
+
+        <!-- LinkedIn -->
+        <a href="https://www.linkedin.com/in/máximo-cipriani-725095265"
+           target="_blank" rel="noopener"
+           class="btn-linkedin reveal reveal-delay-3">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+          </svg>
+          LinkedIn — Máximo Cipriani
+        </a>
+
+        <!-- Contact Form -->
+        <div class="contact-form-wrap reveal reveal-delay-4">
+          <div class="form-or">o enviame un mensaje directo</div>
+
+          <div class="form-row-2">
+            <div class="form-row" style="margin-bottom:0">
+              <label>Nombre <span class="req">*</span></label>
+              <input id="f-name" type="text" class="form-input" placeholder="Tu nombre">
+            </div>
+            <div class="form-row" style="margin-bottom:0">
+              <label>Email <span class="req">*</span></label>
+              <input id="f-email" type="email" class="form-input" placeholder="tu@email.com">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label>Asunto</label>
+            <input id="f-subject" type="text" class="form-input" placeholder="Propuesta / Consulta / Colaboración...">
+          </div>
+
+          <div class="form-row">
+            <label>Mensaje <span class="req">*</span></label>
+            <textarea id="f-msg" class="form-input form-textarea" placeholder="Contame sobre tu proyecto o propuesta..."></textarea>
+          </div>
+
+          <button class="form-submit" id="f-submit">
+            <span>Enviar mensaje</span>
+            <span class="submit-icon">→</span>
+          </button>
+
+          <div class="form-feedback" id="f-feedback"></div>
+        </div>
+
+        <div class="contact-line reveal" style="transition-delay:0.6s"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ─── FOOTER ─── -->
+  <footer>
+    <span>Máximo Cipriani</span> — Analista de Sistemas &nbsp;·&nbsp; Buenos Aires, AR &nbsp;·&nbsp; <span>2025</span>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="main.js"></script>
+</body>
+</html>
