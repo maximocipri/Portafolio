@@ -496,6 +496,19 @@ nav {
   letter-spacing: 0.08em;
 }
 .card-link:hover { text-decoration: underline; }
+
+
+
+.card::before,
+.card::after {
+  pointer-events: none;
+}
+
+.card-link {
+  position: relative;
+  z-index: 2;
+  cursor: pointer;
+}
 /* ════════════════════════════════════════════
    CONTACT
 ════════════════════════════════════════════ */
