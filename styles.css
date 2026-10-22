@@ -487,12 +487,16 @@ nav {
 
 .card-link {
   display: inline-block;
+  background-color: #00d2ff;
+  border-radius: 2rem;
   margin-top: 1rem;
   margin-right: 1.2rem;
   font-family: 'Share Tech Mono', monospace;
   font-size: 0.8rem;
   color: var(--blue);
   text-decoration: none;
+  text-align: center;
+  
   letter-spacing: 0.08em;
 }
 .card-link:hover { text-decoration: underline; }
